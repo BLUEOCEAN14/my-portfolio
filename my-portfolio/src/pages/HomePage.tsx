@@ -1634,14 +1634,14 @@ function HomePage() {
                     </ProjectTech>
                     <ProjectActions>
                       <ProjectButton
-                        onClick={() => window.open('https://blu30cean.github.io/find-carrot', '_blank')}
+                        onClick={() => window.open('http://localhost:3000/find-carrot', '_blank')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
                         🎮 게임하기
                       </ProjectButton>
                       <ProjectButton
-                        onClick={() => window.open('https://github.com/BLU30CEAN/find-carrot', '_blank')}
+                        onClick={() => window.open('https://github.com/yourusername/find-carrot', '_blank')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -1676,7 +1676,7 @@ function HomePage() {
                         🎬 보러가기
                       </ProjectButton>
                       <ProjectButton
-                        onClick={() => window.open('https://github.com/BLU30CEAN/netflix-clone', '_blank')}
+                        onClick={() => window.open('https://github.com/yourusername/netflix-clone', '_blank')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >

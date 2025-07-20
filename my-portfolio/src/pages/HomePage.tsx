@@ -87,7 +87,7 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 4rem;
   z-index: 1;
   box-sizing: border-box;
@@ -1236,13 +1236,7 @@ function HomePage() {
             >
               <Github size={20} />
             </SocialLink>
-            <SocialLink
-              href={process.env.REACT_APP_LINKEDIN_URL || "https://linkedin.com"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin size={20} />
-            </SocialLink>
+
               <SocialLink href={`mailto:${process.env.REACT_APP_PERSONAL_EMAIL || "bigeunjun@naver.com"}`}>
               <Mail size={20} />
             </SocialLink>

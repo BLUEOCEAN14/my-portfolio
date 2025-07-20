@@ -314,7 +314,7 @@ function App() {
                 </Logo>
 
                 <NavLinks>
-                  {navItems.map((item) => (
+                  {/* {navItems.map((item) => (
                     <NavLink
                       key={item.name}
                       onClick={() => scrollToSection(item.id)}
@@ -327,7 +327,7 @@ function App() {
                     >
                       {item.name}
                     </NavLink>
-                  ))}
+                  ))} */}
                   <ThemeToggle />
                 </NavLinks>
 
@@ -338,7 +338,7 @@ function App() {
                 </MobileMenuButton>
               </NavContainer>
 
-              <AnimatePresence>
+              {/* <AnimatePresence>
                 {isMobileMenuOpen && (
                   <MobileMenu
                     initial={{ opacity: 0, height: 0 }}
@@ -361,7 +361,7 @@ function App() {
                     ))}
                   </MobileMenu>
                 )}
-              </AnimatePresence>
+              </AnimatePresence> */}
             </Navigation>
 
             <MainContent>

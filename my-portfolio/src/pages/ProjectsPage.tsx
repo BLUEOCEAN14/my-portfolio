@@ -359,8 +359,8 @@ function ProjectsPage() {
         "직관적인 UI/UX",
         "성능 최적화 완료",
       ],
-      githubUrl: "https://github.com/yourusername/find-carrot",
-      liveUrl: "http://localhost:3000",
+      githubUrl: "https://github.com/BLU30CEAN/find-carrot",
+      liveUrl: "https://blu30cean.github.io/find-carrot",
       port: 3000,
     },
     {
@@ -397,8 +397,8 @@ function ProjectsPage() {
         "부드러운 애니메이션",
         "사용자 친화적 인터페이스",
       ],
-      githubUrl: "https://github.com/yourusername/netflix-clone",
-      liveUrl: "http://localhost:3001",
+      githubUrl: "https://github.com/BLU30CEAN/netflix-clone",
+      liveUrl: "https://blu30cean.github.io/netflix-clone",
       port: 3001,
     },
     {
@@ -435,8 +435,8 @@ function ProjectsPage() {
         "직관적인 게임 인터페이스",
         "성능 최적화 완료",
       ],
-      githubUrl: "https://github.com/yourusername/rabris",
-      liveUrl: "http://localhost:3002",
+      githubUrl: "https://github.com/BLU30CEAN/rabris",
+      liveUrl: "https://blu30cean.github.io/rabris",
       port: 3002,
     },
     {

@@ -1264,7 +1264,7 @@ function HomePage() {
           </ImageContent>
         </Content>
         
-        <ScrollIndicator
+        {/* <ScrollIndicator
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5 }}
@@ -1282,7 +1282,7 @@ function HomePage() {
           >
             ↓
           </ScrollIcon>
-        </ScrollIndicator>
+        </ScrollIndicator> */}
       </HomeSection>
 
       {/* About Section */}
@@ -1402,7 +1402,7 @@ function HomePage() {
           ))}
         </TechStackContainer>
         
-        <ScrollIndicator
+        {/* <ScrollIndicator
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -1421,7 +1421,7 @@ function HomePage() {
           >
             ↓
           </ScrollIcon>
-        </ScrollIndicator>
+        </ScrollIndicator> */}
       </AboutSection>
 
 
@@ -1634,7 +1634,7 @@ function HomePage() {
                     </ProjectTech>
                     <ProjectActions>
                       <ProjectButton
-                        onClick={() => window.open('http://localhost:3000/find-carrot', '_blank')}
+                        onClick={() => window.open('https://blu30cean.github.io/find-carrot', '_blank')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -1669,7 +1669,7 @@ function HomePage() {
                     </ProjectTech>
                     <ProjectActions>
                       <ProjectButton
-                        onClick={() => window.open('http://localhost:3001', '_blank')}
+                        onClick={() => window.open('https://blu30cean.github.io/netflix-clone', '_blank')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -1704,7 +1704,7 @@ function HomePage() {
                     </ProjectTech>
                     <ProjectActions>
                       <ProjectButton
-                        onClick={() => window.open('http://localhost:3002', '_blank')}
+                        onClick={() => window.open('https://blu30cean.github.io/rabris', '_blank')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -1725,7 +1725,7 @@ function HomePage() {
           </TextContent>
         </Content>
         
-        <ScrollIndicator
+        {/* <ScrollIndicator
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -1744,7 +1744,7 @@ function HomePage() {
           >
             ↓
           </ScrollIcon>
-        </ScrollIndicator>
+        </ScrollIndicator> */}
       </ProjectsSection>
 
 

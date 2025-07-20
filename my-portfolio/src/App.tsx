@@ -307,7 +307,15 @@ function App() {
                   transition={{ duration: 0.5 }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => window.location.href = '/'}
+                  onClick={() => {
+                    if (window.location.hash === '' || window.location.hash === '#/') {
+                      // 이미 홈페이지에 있으면 맨 위로 스크롤
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                      // 다른 페이지에 있으면 홈으로 이동
+                      window.location.href = '/';
+                    }
+                  }}
                 >
                   <LogoIcon>EJ</LogoIcon>
                   <LogoText>Portfolio</LogoText>

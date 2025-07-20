@@ -5,6 +5,7 @@ import {
   getRandomBlock,
   rotateBlock,
 } from "../utils/tetrisBlocks";
+import { soundManager } from "../utils/soundManager";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -116,6 +117,7 @@ export const useTetrisGame = () => {
     };
 
     if (!isValidPosition(newPiece.shape, newPiece.position, gameState.board)) {
+      soundManager.playGameOver();
       setGameState((prev) => ({ ...prev, gameOver: true }));
       return;
     }
@@ -149,6 +151,8 @@ export const useTetrisGame = () => {
               }
             : null,
         }));
+        // 이동 사운드 재생
+        soundManager.playMove();
       } else if (dy > 0) {
         // 블록을 놓을 수 없고 아래로 이동하려고 할 때
         const newBoard = placePiece(gameState.board, gameState.currentPiece);
@@ -156,6 +160,15 @@ export const useTetrisGame = () => {
         const scoreIncrease = calculateScore(linesCleared, gameState.level);
         const newLevel =
           Math.floor((gameState.linesCleared + linesCleared) / 10) + 1;
+
+        // 사운드 재생
+        soundManager.playDrop();
+        if (linesCleared > 0) {
+          soundManager.playLineClear();
+        }
+        if (newLevel > gameState.level) {
+          soundManager.playLevelUp();
+        }
 
         setGameState((prev) => ({
           ...prev,
@@ -194,6 +207,8 @@ export const useTetrisGame = () => {
             }
           : null,
       }));
+      // 회전 사운드 재생
+      soundManager.playRotate();
     }
   }, [gameState]);
 

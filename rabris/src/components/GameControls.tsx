@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { soundManager } from "../utils/soundManager";
 
 const ControlsContainer = styled.div`
   display: flex;
@@ -108,6 +109,14 @@ const ResetButton = styled(ControlButton)`
   }
 `;
 
+const SoundButton = styled(ControlButton)`
+  background: #ff5722;
+
+  &:hover {
+    background: #e64a19;
+  }
+`;
+
 const LeftButton = styled(ControlButton)`
   grid-column: 1;
   grid-row: 2;
@@ -184,6 +193,9 @@ const GameControls: React.FC<GameControlsProps> = ({
           {isPaused ? "▶️ 재개" : "⏸️ 일시정지"}
         </PauseButton>
         <ResetButton onClick={onReset}>🐰 새 게임</ResetButton>
+        <SoundButton onClick={() => soundManager.toggleMute()}>
+          {soundManager.isSoundMuted() ? "🔇 사운드 켜기" : "🔊 사운드 끄기"}
+        </SoundButton>
       </ButtonGroup>
     </ControlsContainer>
   );

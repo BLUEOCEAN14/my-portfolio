@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useRef } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import styled from "styled-components";
 import { GameState, Cell } from "../App";
 
@@ -85,16 +85,13 @@ const CellButton = styled.button<{
   }
 `;
 
-const MobileControls = styled.div`
-  display: none;
-  margin-top: 10px;
+const Controls = styled.div`
+  display: flex;
+  margin: 20px 0;
   gap: 10px;
   justify-content: center;
   align-items: center;
-
-  @media (max-width: 480px) {
-    display: flex;
-  }
+  flex-wrap: wrap;
 `;
 
 const ControlButton = styled.button<{ isActive?: boolean }>`
@@ -118,22 +115,6 @@ const ControlButton = styled.button<{ isActive?: boolean }>`
   }
 `;
 
-const LongPressIndicator = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
 interface GameBoardProps {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
@@ -155,9 +136,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const [controlMode, setControlMode] = useState<
     "normal" | "flag" | "question"
   >("normal");
-  const [showLongPressIndicator, setShowLongPressIndicator] = useState(false);
-  const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const longPressCellRef = useRef<{ row: number; col: number } | null>(null);
 
   // 당근 배치 함수
   const placeCarrots = useCallback(
@@ -210,230 +188,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     [gameState.board, difficulty, rows, cols]
   );
 
-  // 3x3 범위 확장 함수
-  const expand3x3 = useCallback(
-    (row: number, col: number) => {
-      if (
-        gameState.gameOver ||
-        gameState.gameWon ||
-        !gameState.board[row][col].isRevealed ||
-        gameState.board[row][col].neighborCarrots === 0
-      ) {
-        return;
-      }
-
-      setGameState((prevState) => {
-        const newBoard = [...prevState.board];
-        let flagCount = 0;
-
-        // 주변 3x3 범위의 깃발 수 확인
-        for (let di = -1; di <= 1; di++) {
-          for (let dj = -1; dj <= 1; dj++) {
-            const ni = row + di;
-            const nj = col + dj;
-            if (
-              ni >= 0 &&
-              ni < rows &&
-              nj >= 0 &&
-              nj < cols &&
-              newBoard[ni][nj].isFlagged
-            ) {
-              flagCount++;
-            }
-          }
-        }
-
-        // 깃발 수가 이웃 당근 수와 같으면 확장
-        if (flagCount === newBoard[row][col].neighborCarrots) {
-          for (let di = -1; di <= 1; di++) {
-            for (let dj = -1; dj <= 1; dj++) {
-              const ni = row + di;
-              const nj = col + dj;
-              if (
-                ni >= 0 &&
-                ni < rows &&
-                nj >= 0 &&
-                nj < cols &&
-                !newBoard[ni][nj].isRevealed &&
-                !newBoard[ni][nj].isFlagged
-              ) {
-                newBoard[ni][nj].isRevealed = true;
-
-                // 당근을 클릭한 경우 게임 오버
-                if (newBoard[ni][nj].isCarrot) {
-                  for (let i = 0; i < rows; i++) {
-                    for (let j = 0; j < cols; j++) {
-                      if (newBoard[i][j].isCarrot) {
-                        newBoard[i][j].isRevealed = true;
-                      }
-                    }
-                  }
-                  return {
-                    ...prevState,
-                    board: newBoard,
-                    gameOver: true,
-                    endTime: Date.now(),
-                  };
-                }
-
-                // 빈 셀인 경우 추가 확장
-                if (newBoard[ni][nj].neighborCarrots === 0) {
-                  const revealEmptyCells = (r: number, c: number) => {
-                    for (let dr = -1; dr <= 1; dr++) {
-                      for (let dc = -1; dc <= 1; dc++) {
-                        const nr = r + dr;
-                        const nc = c + dc;
-                        if (
-                          nr >= 0 &&
-                          nr < rows &&
-                          nc >= 0 &&
-                          nc < cols &&
-                          !newBoard[nr][nc].isRevealed &&
-                          !newBoard[nr][nc].isFlagged
-                        ) {
-                          newBoard[nr][nc].isRevealed = true;
-                          if (newBoard[nr][nc].neighborCarrots === 0) {
-                            revealEmptyCells(nr, nc);
-                          }
-                        }
-                      }
-                    }
-                  };
-                  revealEmptyCells(ni, nj);
-                }
-              }
-            }
-          }
-        }
-
-        // 승리 조건 확인
-        let revealedCount = 0;
-        for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < cols; j++) {
-            if (newBoard[i][j].isRevealed && !newBoard[i][j].isCarrot) {
-              revealedCount++;
-            }
-          }
-        }
-
-        const totalCells = rows * cols;
-        const isWon =
-          revealedCount === totalCells - DIFFICULTY_LEVELS[difficulty].mines;
-
-        return {
-          ...prevState,
-          board: newBoard,
-          gameWon: isWon,
-          endTime: isWon ? Date.now() : prevState.endTime,
-        };
-      });
-    },
-    [gameState, setGameState, rows, cols, difficulty]
-  );
-
-  // 셀 클릭 처리
-  const handleCellClick = useCallback(
-    (row: number, col: number) => {
-      if (
-        gameState.gameOver ||
-        gameState.gameWon ||
-        gameState.board[row][col].isFlagged ||
-        gameState.board[row][col].isQuestioned
-      ) {
-        return;
-      }
-
-      // 컨트롤 모드에 따른 처리
-      if (controlMode === "flag") {
-        handleFlagClick(row, col);
-        return;
-      } else if (controlMode === "question") {
-        handleQuestionClick(row, col);
-        return;
-      }
-
-      setGameState((prevState) => {
-        const newBoard = [...prevState.board];
-        const cell = newBoard[row][col];
-
-        // 첫 번째 클릭인 경우 당근 배치
-        if (!prevState.startTime) {
-          const boardWithCarrots = placeCarrots(row, col);
-          newBoard[row][col] = boardWithCarrots[row][col];
-          cell.isRevealed = true;
-        } else {
-          cell.isRevealed = true;
-        }
-
-        // 당근을 클릭한 경우 게임 오버
-        if (cell.isCarrot) {
-          // 모든 당근 공개
-          for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < cols; j++) {
-              if (newBoard[i][j].isCarrot) {
-                newBoard[i][j].isRevealed = true;
-              }
-            }
-          }
-          return {
-            ...prevState,
-            board: newBoard,
-            gameOver: true,
-            endTime: Date.now(),
-          };
-        }
-
-        // 빈 셀인 경우 주변 셀들도 자동으로 공개
-        if (cell.neighborCarrots === 0) {
-          const revealEmptyCells = (r: number, c: number) => {
-            for (let di = -1; di <= 1; di++) {
-              for (let dj = -1; dj <= 1; dj++) {
-                const ni = r + di;
-                const nj = c + dj;
-                if (
-                  ni >= 0 &&
-                  ni < rows &&
-                  nj >= 0 &&
-                  nj < cols &&
-                  !newBoard[ni][nj].isRevealed &&
-                  !newBoard[ni][nj].isFlagged
-                ) {
-                  newBoard[ni][nj].isRevealed = true;
-                  if (newBoard[ni][nj].neighborCarrots === 0) {
-                    revealEmptyCells(ni, nj);
-                  }
-                }
-              }
-            }
-          };
-          revealEmptyCells(row, col);
-        }
-
-        // 승리 조건 확인
-        let revealedCount = 0;
-        for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < cols; j++) {
-            if (newBoard[i][j].isRevealed && !newBoard[i][j].isCarrot) {
-              revealedCount++;
-            }
-          }
-        }
-
-        const totalCells = rows * cols;
-        const isWon =
-          revealedCount === totalCells - DIFFICULTY_LEVELS[difficulty].mines;
-
-        return {
-          ...prevState,
-          board: newBoard,
-          gameWon: isWon,
-          endTime: isWon ? Date.now() : prevState.endTime,
-        };
-      });
-    },
-    [gameState, setGameState, placeCarrots, rows, cols, difficulty, controlMode]
-  );
-
   // 깃발 클릭 처리
   const handleFlagClick = useCallback(
     (row: number, col: number) => {
@@ -449,10 +203,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
         const newBoard = [...prevState.board];
         const cell = newBoard[row][col];
 
+        // 물음표가 있으면 제거하고 깃발로 변경
         if (cell.isQuestioned) {
           cell.isQuestioned = false;
+          cell.isFlagged = true;
+        } else {
+          // 깃발 토글
+          cell.isFlagged = !cell.isFlagged;
         }
-        cell.isFlagged = !cell.isFlagged;
 
         return {
           ...prevState,
@@ -479,8 +237,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
         const newBoard = [...prevState.board];
         const cell = newBoard[row][col];
 
+        // 깃발이 있으면 제거하고 물음표로 변경
         if (cell.isFlagged) {
           cell.isFlagged = false;
+          cell.isQuestioned = true;
           return {
             ...prevState,
             board: newBoard,
@@ -488,6 +248,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           };
         }
 
+        // 물음표 토글
         cell.isQuestioned = !cell.isQuestioned;
         return {
           ...prevState,
@@ -498,14 +259,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
     [gameState, setGameState]
   );
 
-  // 우클릭으로 깃발 설정
-  const handleRightClick = useCallback(
-    (e: React.MouseEvent, row: number, col: number) => {
-      e.preventDefault();
+  // 일반 클릭 처리
+  const handleNormalClick = useCallback(
+    (row: number, col: number) => {
       if (
         gameState.gameOver ||
         gameState.gameWon ||
-        gameState.board[row][col].isRevealed
+        gameState.board[row][col].isRevealed ||
+        gameState.board[row][col].isFlagged ||
+        gameState.board[row][col].isQuestioned
       ) {
         return;
       }
@@ -514,56 +276,112 @@ const GameBoard: React.FC<GameBoardProps> = ({
         const newBoard = [...prevState.board];
         const cell = newBoard[row][col];
 
-        if (cell.isQuestioned) {
-          cell.isQuestioned = false;
+        // 첫 번째 클릭인 경우 당근 배치
+        if (!prevState.startTime) {
+          const boardWithCarrots = placeCarrots(row, col);
+          newBoard.splice(0, newBoard.length, ...boardWithCarrots);
+          newBoard[row][col].isRevealed = true;
+        } else {
+          newBoard[row][col].isRevealed = true;
         }
-        cell.isFlagged = !cell.isFlagged;
+
+        // 당근을 클릭한 경우 게임 오버
+        if (newBoard[row][col].isCarrot) {
+          for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+              if (newBoard[i][j].isCarrot) {
+                newBoard[i][j].isRevealed = true;
+              }
+            }
+          }
+          return {
+            ...prevState,
+            board: newBoard,
+            gameOver: true,
+            endTime: Date.now(),
+          };
+        }
+
+        // 빈 셀이면 주변 확장
+        if (newBoard[row][col].neighborCarrots === 0) {
+          const revealEmptyCells = (r: number, c: number) => {
+            for (let di = -1; di <= 1; di++) {
+              for (let dj = -1; dj <= 1; dj++) {
+                const ni = r + di;
+                const nj = c + dj;
+                if (
+                  ni >= 0 &&
+                  ni < rows &&
+                  nj >= 0 &&
+                  nj < cols &&
+                  !newBoard[ni][nj].isRevealed &&
+                  !newBoard[ni][nj].isFlagged &&
+                  !newBoard[ni][nj].isQuestioned
+                ) {
+                  newBoard[ni][nj].isRevealed = true;
+                  if (newBoard[ni][nj].neighborCarrots === 0) {
+                    revealEmptyCells(ni, nj);
+                  }
+                }
+              }
+            }
+          };
+          revealEmptyCells(row, col);
+        }
+
+        // 승리 조건 확인
+        const revealedCount = newBoard
+          .flat()
+          .filter((cell) => cell.isRevealed && !cell.isCarrot).length;
+        const totalCells = rows * cols - DIFFICULTY_LEVELS[difficulty].mines;
+
+        if (revealedCount === totalCells) {
+          return {
+            ...prevState,
+            board: newBoard,
+            gameWon: true,
+            endTime: Date.now(),
+          };
+        }
 
         return {
           ...prevState,
           board: newBoard,
-          flagCount: prevState.flagCount + (cell.isFlagged ? 1 : -1),
         };
       });
     },
-    [gameState, setGameState]
+    [gameState, setGameState, placeCarrots, rows, cols, difficulty]
   );
 
-  // 길게 누르기 시작
-  const handleMouseDown = useCallback(
+  // 셀 클릭 처리 (컨트롤 모드에 따라)
+  const handleCellClick = useCallback(
     (row: number, col: number) => {
-      if (
-        gameState.gameOver ||
-        gameState.gameWon ||
-        !gameState.board[row][col].isRevealed ||
-        gameState.board[row][col].neighborCarrots === 0
-      ) {
+      if (gameState.gameOver || gameState.gameWon) {
         return;
       }
 
-      longPressCellRef.current = { row, col };
-      setShowLongPressIndicator(true);
+      const cell = gameState.board[row][col];
 
-      longPressTimerRef.current = setTimeout(() => {
-        if (longPressCellRef.current) {
-          expand3x3(longPressCellRef.current.row, longPressCellRef.current.col);
-          setShowLongPressIndicator(false);
-          longPressCellRef.current = null;
-        }
-      }, 1000);
+      // 이미 공개된 셀은 클릭 무시
+      if (cell.isRevealed) {
+        return;
+      }
+
+      // 컨트롤 모드에 따른 처리
+      switch (controlMode) {
+        case "normal":
+          handleNormalClick(row, col);
+          break;
+        case "flag":
+          handleFlagClick(row, col);
+          break;
+        case "question":
+          handleQuestionClick(row, col);
+          break;
+      }
     },
-    [gameState, expand3x3]
+    [gameState, controlMode, handleNormalClick, handleFlagClick, handleQuestionClick]
   );
-
-  // 길게 누르기 취소
-  const handleMouseUp = useCallback(() => {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = null;
-    }
-    setShowLongPressIndicator(false);
-    longPressCellRef.current = null;
-  }, []);
 
   // 게임 시작 시간 설정
   useEffect(() => {
@@ -607,12 +425,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 isCarrot={cell.isCarrot}
                 gameOver={gameState.gameOver}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
-                onContextMenu={(e) => handleRightClick(e, rowIndex, colIndex)}
-                onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
-                onTouchStart={() => handleMouseDown(rowIndex, colIndex)}
-                onTouchEnd={handleMouseUp}
               >
                 {getCellContent(cell)}
               </CellButton>
@@ -621,7 +433,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         </BoardGrid>
       </BoardContainer>
 
-      <MobileControls>
+      <Controls>
         <ControlButton
           isActive={controlMode === "normal"}
           onClick={() => setControlMode("normal")}
@@ -640,14 +452,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         >
           ❓ 물음표
         </ControlButton>
-      </MobileControls>
-
-      {showLongPressIndicator && (
-        <LongPressIndicator>
-          <span>⏱️</span>
-          <span>길게 누르는 중... (3x3 확장)</span>
-        </LongPressIndicator>
-      )}
+      </Controls>
     </>
   );
 };

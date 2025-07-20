@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -24,37 +24,37 @@ function App() {
       movies: [
         {
           id: 1,
-          title: "블루 오션",
+          title: "인터스텔라",
           image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop&q=80",
           rating: 4.8,
         },
         {
           id: 2,
-          title: "심해의 비밀",
+          title: "듄",
           image:
-            "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1633613286991-611fe299c4be?w=300&h=450&fit=crop&q=80",
           rating: 4.6,
         },
         {
           id: 3,
-          title: "바다의 전설",
+          title: "블레이드 러너",
           image:
-            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&q=80",
           rating: 4.9,
         },
         {
           id: 4,
-          title: "푸른 깊이",
+          title: "매드맥스",
           image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop&q=80",
           rating: 4.7,
         },
         {
           id: 5,
-          title: "해양 탐험",
+          title: "레디 플레이어 원",
           image:
-            "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=300&h=450&fit=crop&q=80",
           rating: 4.5,
         },
       ],
@@ -64,37 +64,37 @@ function App() {
       movies: [
         {
           id: 6,
-          title: "블루 스톰",
+          title: "존 윅",
           image:
-            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=450&fit=crop&q=80",
           rating: 4.4,
         },
         {
           id: 7,
-          title: "심해 전투",
+          title: "미션 임파서블",
           image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=450&fit=crop&q=80",
           rating: 4.3,
         },
         {
           id: 8,
-          title: "바다의 용사",
+          title: "배트맨",
           image:
-            "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=300&h=450&fit=crop&q=80",
           rating: 4.6,
         },
         {
           id: 9,
-          title: "푸른 전쟁",
+          title: "스파이더맨",
           image:
-            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=450&fit=crop&q=80",
           rating: 4.2,
         },
         {
           id: 10,
-          title: "해양 특공대",
+          title: "어벤져스",
           image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1574263867127-a8b6d6c3c3b3?w=300&h=450&fit=crop&q=80",
           rating: 4.5,
         },
       ],
@@ -104,37 +104,37 @@ function App() {
       movies: [
         {
           id: 11,
-          title: "블루 로맨스",
+          title: "라라랜드",
           image:
-            "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=300&h=450&fit=crop&q=80",
           rating: 4.7,
         },
         {
           id: 12,
-          title: "심해의 사랑",
+          title: "노트북",
           image:
-            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&q=80",
           rating: 4.8,
         },
         {
           id: 13,
-          title: "바다의 약속",
+          title: "타이타닉",
           image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop&q=80",
           rating: 4.6,
         },
         {
           id: 14,
-          title: "푸른 기억",
+          title: "500일의 썸머",
           image:
-            "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1633613286991-611fe299c4be?w=300&h=450&fit=crop&q=80",
           rating: 4.9,
         },
         {
           id: 15,
-          title: "해양의 꿈",
+          title: "이터널 선샤인",
           image:
-            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=450&fit=crop",
+            "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=300&h=450&fit=crop&q=80",
           rating: 4.4,
         },
       ],

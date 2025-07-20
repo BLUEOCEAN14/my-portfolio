@@ -63,16 +63,22 @@ const MovieCard = styled.div<{ isHovered: boolean }>`
   position: relative;
   min-width: 200px;
   height: 300px;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
-  transform: ${(props) => (props.isHovered ? "scale(1.05)" : "scale(1)")};
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: ${(props) => (props.isHovered ? "scale(1.08) translateY(-10px)" : "scale(1)")};
   z-index: ${(props) => (props.isHovered ? 10 : 1)};
+  box-shadow: ${(props) => 
+    props.isHovered 
+      ? "0 20px 40px rgba(0, 0, 0, 0.4)" 
+      : "0 4px 12px rgba(0, 0, 0, 0.2)"
+  };
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.08) translateY(-10px);
     z-index: 10;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   }
 
   @media (max-width: 768px) {
@@ -91,6 +97,17 @@ const MovieImage = styled.img`
   height: 100%;
   object-fit: cover;
   transition: all 0.3s ease;
+  
+  &.error {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 1rem;
+  }
 `;
 
 const MovieOverlay = styled.div<{ isHovered: boolean }>`
@@ -135,27 +152,32 @@ const ActionButtons = styled.div`
 `;
 
 const ActionButton = styled.button`
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.15);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 
   &.play {
-    background: #3b82f6;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    border-color: rgba(255, 107, 107, 0.3);
 
     &:hover {
-      background: #2563eb;
+      background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%);
+      transform: scale(1.15);
+      border-color: rgba(255, 107, 107, 0.5);
     }
   }
 `;
@@ -208,6 +230,7 @@ const NavigationButton = styled.button<{ direction: "left" | "right" }>`
 const MovieRow: React.FC<MovieRowProps> = ({ title, movies }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredMovie, setHoveredMovie] = useState<number | null>(null);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
   const moviesPerView = 6;
   const maxIndex = Math.max(0, movies.length - moviesPerView);
@@ -220,6 +243,10 @@ const MovieRow: React.FC<MovieRowProps> = ({ title, movies }) => {
 
   const handleNext = () => {
     setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+  };
+
+  const handleImageError = (movieId: number) => {
+    setImageErrors(prev => new Set(prev).add(movieId));
   };
 
   return (
@@ -242,7 +269,26 @@ const MovieRow: React.FC<MovieRowProps> = ({ title, movies }) => {
               onMouseEnter={() => setHoveredMovie(movie.id)}
               onMouseLeave={() => setHoveredMovie(null)}
             >
-              <MovieImage src={movie.image} alt={movie.title} />
+              <MovieImage 
+                src={movie.image} 
+                alt={movie.title}
+                onError={() => handleImageError(movie.id)}
+                className={imageErrors.has(movie.id) ? 'error' : ''}
+              />
+              {imageErrors.has(movie.id) && (
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  color: 'white',
+                  fontSize: '0.8rem',
+                  textAlign: 'center',
+                  zIndex: 1
+                }}>
+                  {movie.title}
+                </div>
+              )}
               <MovieOverlay isHovered={hoveredMovie === movie.id}>
                 <MovieTitle>{movie.title}</MovieTitle>
                 <MovieRating>

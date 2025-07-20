@@ -61,7 +61,7 @@ const AboutSection = styled(Section)``;
 
 const ProjectsSection = styled(Section)``;
 const ContactSection = styled(Section)``;
-const ThankYouSection = styled(Section)``;
+
 
 const FloatingElements = styled.div`
   position: absolute;
@@ -923,100 +923,7 @@ const GuestbookButton = styled(motion.button)`
   }
 `;
 
-const ThankYouContainer = styled.div`
-  max-width: 1000px;
-  width: 100%;
-  text-align: center;
-`;
 
-const ThankYouTitle = styled(motion.h2)`
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  margin-bottom: 2rem;
-  background: ${(props) => props.theme.colors.gradient};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
-`;
-
-const ThankYouMessage = styled(motion.div)`
-  font-size: 1.3rem;
-  color: ${(props) => props.theme.colors.textSecondary};
-  line-height: 1.8;
-  margin-bottom: 4rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const ValuesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
-`;
-
-const ValueCard = styled(motion.div)`
-  background: ${(props) => props.theme.colors.surface};
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: 20px;
-  padding: 2.5rem;
-  text-align: left;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    border-color: ${(props) => props.theme.colors.primary};
-    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
-  }
-`;
-
-const ValueTitle = styled.h3`
-  font-size: 1.5rem;
-  color: ${(props) => props.theme.colors.primary};
-  margin-bottom: 1rem;
-  font-weight: 600;
-`;
-
-const ValueDescription = styled.p`
-  color: ${(props) => props.theme.colors.textSecondary};
-  line-height: 1.7;
-  font-size: 1rem;
-`;
-
-const FinalMessage = styled(motion.div)`
-  background: ${(props) => props.theme.colors.surface};
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: 20px;
-  padding: 3rem;
-  margin-top: 3rem;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-    height: 3px;
-    background: ${(props) => props.theme.colors.gradient};
-  }
-`;
-
-const FinalTitle = styled.h3`
-  font-size: 1.8rem;
-  color: ${(props) => props.theme.colors.text};
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-`;
-
-const FinalText = styled.p`
-  color: ${(props) => props.theme.colors.textSecondary};
-  line-height: 1.8;
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-`;
 
 const ScrollIndicator = styled(motion.div)`
   position: absolute;
@@ -1282,7 +1189,7 @@ function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            EJ
+            {process.env.REACT_APP_PERSONAL_NAME || "EJ"}
           </Name>
 
           <Title
@@ -1323,20 +1230,20 @@ function HomePage() {
             transition={{ duration: 0.8, delay: 1 }}
           >
             <SocialLink
-                href="https://github.com/yourusername"
+                href={process.env.REACT_APP_GITHUB_URL || "https://github.com/yourusername"}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Github size={20} />
             </SocialLink>
             <SocialLink
-              href="https://linkedin.com"
+              href={process.env.REACT_APP_LINKEDIN_URL || "https://linkedin.com"}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Linkedin size={20} />
             </SocialLink>
-              <SocialLink href="mailto:bigeunjun@naver.com">
+              <SocialLink href={`mailto:${process.env.REACT_APP_PERSONAL_EMAIL || "bigeunjun@naver.com"}`}>
               <Mail size={20} />
             </SocialLink>
           </SocialLinks>
@@ -1350,8 +1257,8 @@ function HomePage() {
               whileHover={{ scale: 1.05, rotate: 5 }}
             >
               <Image 
-                src="/profile.jpg" 
-                alt="EJ - Frontend Developer"
+                src={process.env.REACT_APP_PROFILE_IMAGE_URL || "/profile.jpg"} 
+                alt={`${process.env.REACT_APP_PERSONAL_NAME || "EJ"} - Frontend Developer`}
               />
             </ProfileImage>
           </ImageContent>
@@ -1840,124 +1747,7 @@ function HomePage() {
         </ScrollIndicator>
       </ProjectsSection>
 
-      {/* Thank You Section */}
-      <ThankYouSection id="thankyou">
-        <FloatingElements>
-          {[...Array(12)].map((_, i) => (
-            <FloatingElement
-              key={i}
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -20, 0],
-                opacity: [0.6, 1, 0.6],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </FloatingElements>
 
-        <ThankYouContainer>
-          <ThankYouTitle
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            끝까지 봐주셔서 감사합니다
-          </ThankYouTitle>
-
-          <ThankYouMessage
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            4년간의 개발 경험을 통해 기술적 역량뿐만 아니라<br />
-            문제 해결 능력과 팀 협업 역량을 갖춘 개발자로 성장했습니다.
-          </ThankYouMessage>
-
-          <ValuesGrid>
-            <ValueCard
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <ValueTitle>🎯 체계적 접근</ValueTitle>
-              <ValueDescription>
-                복잡한 문제를 체계적으로 분석하고 단계별로 해결해 나가는 방식을 선호합니다. 
-                새로운 기술 도입부터 프로젝트 완수까지, 명확한 로드맵을 통해 효율적으로 목표를 달성합니다.
-              </ValueDescription>
-            </ValueCard>
-
-            <ValueCard
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <ValueTitle>🤝 협업 중심</ValueTitle>
-              <ValueDescription>
-                개인의 성과보다 팀의 시너지를 중요하게 생각합니다. 
-                다양한 관점과 경험을 존중하며, 원활한 소통을 통해 
-                더 나은 결과물을 만들어내는 것을 목표로 합니다.
-              </ValueDescription>
-            </ValueCard>
-
-            <ValueCard
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <ValueTitle>🚀 기술 탐구</ValueTitle>
-              <ValueDescription>
-                기술의 빠른 변화를 기회로 삼아 지속적으로 학습합니다. 
-                새로운 트렌드를 파악하고 실무에 적용하여 
-                더 나은 사용자 경험을 제공하는 것을 추구합니다.
-              </ValueDescription>
-            </ValueCard>
-          </ValuesGrid>
-
-          <FinalMessage
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <FinalTitle>함께 만들어가는 가치</FinalTitle>
-            <FinalText>
-              새로운 도전과 성장의 기회를 제공해주실 분과 함께 일할 수 있기를 기대합니다. 
-              제 기술과 경험을 바탕으로 비즈니스 가치를 높이고, 
-              사용자에게 더 나은 서비스를 제공하는데 기여하겠습니다.
-            </FinalText>
-            <FinalText>
-              더 자세한 이야기를 나누고 싶으시면 언제든 연락주세요. 
-              감사합니다.
-            </FinalText>
-            <ContactCTA
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                const nextSection = document.querySelector('#contact');
-                nextSection?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              연락하기 <Mail size={20} />
-            </ContactCTA>
-          </FinalMessage>
-        </ThankYouContainer>
-      </ThankYouSection>
 
       {/* Contact Section */}
       <ContactSection id="contact">

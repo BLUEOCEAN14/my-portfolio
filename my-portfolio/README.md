@@ -70,6 +70,21 @@
 
 ## 🔒 개인정보 보호
 
+### Environment Setup
+1. Copy `env.example` to `.env`
+2. Fill in your personal information in `.env`:
+   ```
+   REACT_APP_PERSONAL_NAME=Your Name
+   REACT_APP_PERSONAL_EMAIL=your.email@example.com
+   REACT_APP_GITHUB_URL=https://github.com/yourusername
+   REACT_APP_LINKEDIN_URL=https://linkedin.com/in/yourusername
+   REACT_APP_PROFILE_IMAGE_URL=/profile.jpg
+   ```
+
+### Security Features
+- Personal information is stored in environment variables
+- `.env` file is gitignored to protect privacy
+- Public repository contains only template data
 - 개인 연락처는 이메일로만 제공
 - 민감한 정보는 최소화
 - 프로젝트 중심의 포트폴리오

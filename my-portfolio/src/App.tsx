@@ -290,7 +290,7 @@ function App() {
         { name: "Home", id: "home", icon: Home },
         { name: "About", id: "about", icon: User },
         { name: "Projects", id: "projects", icon: Briefcase },
-        { name: "Thank You", id: "thankyou", icon: Heart },
+      
         { name: "Contact", id: "contact", icon: MessageSquare },
       ];
 

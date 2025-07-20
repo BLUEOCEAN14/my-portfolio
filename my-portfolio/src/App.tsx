@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -10,6 +10,8 @@ import {
   ChevronUp,
   Menu,
   X,
+  Heart,
+  Code,
 } from "lucide-react";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
@@ -27,9 +29,10 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    background: #0a0a0a;
-    color: #ffffff;
+    background: ${(props) => props.theme.colors.background};
+    color: ${(props) => props.theme.colors.text};
     overflow-x: hidden;
+    transition: all 0.3s ease;
   }
 
   ::-webkit-scrollbar {
@@ -37,38 +40,20 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: ${(props) => props.theme.colors.surface};
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #333;
+    background: ${(props) => props.theme.colors.border};
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: ${(props) => props.theme.colors.primary};
   }
 `;
 
-const theme = {
-  colors: {
-    primary: "#00d4ff",
-    secondary: "#ff6b6b",
-    accent: "#4ecdc4",
-    background: "#0a0a0a",
-    surface: "#1a1a1a",
-    text: "#ffffff",
-    textSecondary: "#a0a0a0",
-    border: "#333333",
-    gradient: "linear-gradient(135deg, #00d4ff 0%, #4ecdc4 100%)",
-    gradientSecondary: "linear-gradient(135deg, #ff6b6b 0%, #feca57 100%)",
-  },
-  breakpoints: {
-    mobile: "768px",
-    tablet: "1024px",
-    desktop: "1200px",
-  },
-};
+
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -81,7 +66,7 @@ const Navigation = styled.nav`
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(10, 10, 10, 0.95);
+  background: ${(props) => `${props.theme.colors.background}dd`};
   backdrop-filter: blur(20px);
   border-bottom: 1px solid ${(props) => props.theme.colors.border};
   transition: all 0.3s ease;
@@ -102,13 +87,46 @@ const NavContainer = styled.div`
 `;
 
 const Logo = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-size: 1.5rem;
   font-weight: 700;
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  border-radius: 16px;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 212, 255, 0.12);
+    border-color: rgba(0, 212, 255, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+  }
+`;
+
+const LogoIcon = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: ${(props) => props.theme.colors.gradient};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 800;
+`;
+
+const LogoText = styled.span`
   background: ${(props) => props.theme.colors.gradient};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.02em;
 `;
 
 const NavLinks = styled.div`
@@ -121,13 +139,17 @@ const NavLinks = styled.div`
   }
 `;
 
-const NavLink = styled(motion.a)`
+const NavLink = styled(motion.button)`
   color: ${(props) => props.theme.colors.text};
   text-decoration: none;
   font-weight: 500;
   position: relative;
   cursor: pointer;
   transition: color 0.3s ease;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-family: inherit;
 
   &:hover {
     color: ${(props) => props.theme.colors.primary};
@@ -146,6 +168,14 @@ const NavLink = styled(motion.a)`
 
   &:hover::after {
     width: 100%;
+  }
+
+  &.active {
+    color: ${(props) => props.theme.colors.primary};
+    
+    &::after {
+      width: 100%;
+    }
   }
 `;
 
@@ -222,10 +252,23 @@ const MainContent = styled.main`
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollToTop(window.scrollY > 300);
+      
+      // 스크롤 위치에 따른 활성 섹션 감지
+      const sections = ['home', 'about', 'projects', 'contact'];
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -236,34 +279,46 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const navItems = [
-    { name: "Home", path: "/", icon: Home },
-    { name: "About", path: "/about", icon: User },
-    { name: "Projects", path: "/projects", icon: Briefcase },
-    { name: "Contact", path: "/contact", icon: MessageSquare },
-  ];
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+        const navItems = [
+        { name: "Home", id: "home", icon: Home },
+        { name: "About", id: "about", icon: User },
+        { name: "Projects", id: "projects", icon: Briefcase },
+        { name: "Thank You", id: "thankyou", icon: Heart },
+        { name: "Contact", id: "contact", icon: MessageSquare },
+      ];
 
   return (
     <CustomThemeProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Router>
-          <AppContainer>
+      <GlobalStyle />
+      <Router>
+        <AppContainer>
             <Navigation>
               <NavContainer>
                 <Logo
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => window.location.href = '/'}
                 >
-                  EJ.dev
+                  <LogoIcon>EJ</LogoIcon>
+                  <LogoText>Portfolio</LogoText>
                 </Logo>
 
                 <NavLinks>
                   {navItems.map((item) => (
                     <NavLink
                       key={item.name}
-                      href={item.path}
+                      onClick={() => scrollToSection(item.id)}
+                      className={activeSection === item.id ? 'active' : ''}
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.1 }}
@@ -294,8 +349,10 @@ function App() {
                     {navItems.map((item) => (
                       <MobileNavLink
                         key={item.name}
-                        href={item.path}
-                        onClick={() => setIsMobileMenuOpen(false)}
+                        onClick={() => {
+                          scrollToSection(item.id);
+                          setIsMobileMenuOpen(false);
+                        }}
                         whileHover={{ x: 10 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -332,7 +389,6 @@ function App() {
             </AnimatePresence>
           </AppContainer>
         </Router>
-      </ThemeProvider>
     </CustomThemeProvider>
   );
 }

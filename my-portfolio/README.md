@@ -1,187 +1,79 @@
-# EJ Portfolio
+# Blue Ocean Portfolio
 
-4년간의 개발 경험을 바탕으로 만든 개인 포트폴리오 웹사이트입니다.
-
-## 🚀 주요 기능
-
-### 🌙 테마 시스템
-
-- **라이트/다크/시스템** 테마 지원
-- 사용자 설정 저장 (localStorage)
-- 시스템 테마 자동 감지
-
-### 📧 문의 시스템
-
-- **서버 API** 우선 연동
-- **Google Sheets** 폴백 시스템
-- 실시간 폼 검증
-
-### 🛠 기술 스택
-
-#### Frontend
-
-- React 18 + TypeScript
-- Styled Components
-- Framer Motion
-- React Router DOM
-
-#### Backend (선택사항)
-
-- Express.js
-- CORS, Helmet, Rate Limiting
-- 인메모리 저장소 (MongoDB 연동 가능)
-
-#### 배포
-
-- Vercel/Netlify (Frontend)
-- Railway/Render (Backend)
-
-## 📦 설치 및 실행
-
-### Frontend
-
-```bash
-# 의존성 설치
-npm install
-
-# 개발 서버 실행
-npm start
-
-# 빌드
-npm run build
-```
-
-### Backend (선택사항)
-
-```bash
-cd server
-
-# 의존성 설치
-npm install
-
-# 개발 서버 실행
-npm run dev
-
-# 프로덕션 실행
-npm start
-```
-
-## ⚙️ 환경 설정
-
-### Frontend (.env)
-
-```env
-REACT_APP_API_URL=http://localhost:5000/api
-```
-
-### Backend (.env)
-
-```env
-PORT=5000
-FRONTEND_URL=http://localhost:3000
-```
-
-## 🔧 Google Sheets 연동
-
-1. **Google Apps Script 생성**
-
-   - Google Apps Script에서 새 프로젝트 생성
-   - `server/google-apps-script.js` 코드 복사
-   - 배포 → 웹 앱으로 배포
-
-2. **URL 설정**
-   - `src/utils/googleSheets.ts`에서 `GOOGLE_SCRIPT_URL` 업데이트
-
-## 📁 프로젝트 구조
-
-```
-my-portfolio/
-├── src/
-│   ├── components/          # 재사용 컴포넌트
-│   ├── contexts/           # React Context
-│   ├── pages/              # 페이지 컴포넌트
-│   ├── utils/              # 유틸리티 함수
-│   └── types/              # TypeScript 타입 정의
-├── server/                 # Express 서버 (선택사항)
-└── public/                 # 정적 파일
-```
-
-## 🎨 커스터마이징
-
-### 테마 색상 변경
-
-`src/App.tsx`의 `theme` 객체에서 색상 수정:
-
-```typescript
-const theme = {
-  colors: {
-    primary: "#00d4ff",
-    secondary: "#ff6b6b",
-    // ... 기타 색상
-  },
-};
-```
-
-### 프로젝트 정보 수정
-
-각 페이지 컴포넌트에서 내용 수정:
-
-- `src/pages/HomePage.tsx` - 메인 정보
-- `src/pages/AboutPage.tsx` - 경력 및 기술 스택
-- `src/pages/ProjectsPage.tsx` - 프로젝트 목록
-- `src/pages/ContactPage.tsx` - 연락처 정보
+🌊 **Blue Ocean** - 풀스택 개발자 포트폴리오
 
 ## 🚀 배포
 
-### Frontend (Vercel)
+이 프로젝트는 GitHub Pages를 통해 배포됩니다.
 
-1. GitHub에 코드 푸시
-2. Vercel에서 프로젝트 연결
-3. 자동 배포 완료
+### 배포 방법
 
-### Backend (Railway)
+1. **GitHub 저장소 생성**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/BLU30CEAN/portfolio.git
+   git push -u origin main
+   ```
 
-1. `server` 폴더를 별도 레포지토리로 분리
-2. Railway에서 프로젝트 연결
-3. 환경 변수 설정
-4. 배포 완료
+2. **GitHub Pages 설정**
+   - GitHub 저장소 → Settings → Pages
+   - Source: Deploy from a branch
+   - Branch: main
+   - Folder: / (root)
 
-## 📝 API 문서
+3. **배포 스크립트 추가**
+   ```bash
+   npm install --save-dev gh-pages
+   ```
 
-### 문의 폼
+4. **package.json에 스크립트 추가**
+   ```json
+   "scripts": {
+     "predeploy": "npm run build",
+     "deploy": "gh-pages -d build"
+   }
+   ```
 
-```
-POST /api/contact
-{
-  "name": "string",
-  "email": "string",
-  "subject": "string",
-  "message": "string"
-}
-```
+5. **배포 실행**
+   ```bash
+   npm run deploy
+   ```
 
-### 게시판
+## 🎨 Blue Ocean 컨셉
 
-```
-GET /api/posts?page=1&limit=10
-POST /api/posts
-GET /api/posts/:id
-```
+- **깊은 바다**: 전문성과 깊이 있는 기술력
+- **파도의 흐름**: 유연하고 적응력 있는 개발 방식
+- **투명한 물**: 명확하고 깔끔한 코드
+- **무한한 가능성**: 끊임없는 학습과 성장
 
-## 🤝 기여
+## 🛠 기술 스택
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### 프론트엔드
+- React, TypeScript, Styled Components
 
-## 📄 라이선스
+### 백엔드
+- Java, Spring Boot, Kotlin, Android
 
-MIT License - 자유롭게 사용하세요!
+### 서버/인프라
+- AWS, Docker, Linux, CI/CD
 
-## 📞 연락처
+### 데이터베이스/모니터링
+- PostgreSQL, DataDog, GTM, GA
 
-- Email: contact@ej.dev
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
+## 📧 연락처
+
+- **Email**: ej.an.company@gmail.com
+- **GitHub**: [@BLU30CEAN](https://github.com/BLU30CEAN)
+
+## 🔒 개인정보 보호
+
+- 개인 연락처는 이메일로만 제공
+- 민감한 정보는 최소화
+- 프로젝트 중심의 포트폴리오
+
+---
+
+**Blue Ocean** - 깊이 있는 기술력으로 새로운 가능성을 만들어갑니다 🌊

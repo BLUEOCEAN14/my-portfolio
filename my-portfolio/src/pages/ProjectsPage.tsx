@@ -12,6 +12,11 @@ import {
   Award,
   CheckCircle,
   X,
+  Gamepad2,
+  Carrot,
+  Video,
+  ExternalLink,
+  Github,
 } from "lucide-react";
 
 const ProjectsContainer = styled.div`
@@ -186,6 +191,7 @@ const StatItem = styled.div`
 const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 `;
 
 const ProjectLink = styled.a`
@@ -196,9 +202,35 @@ const ProjectLink = styled.a`
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border: 1px solid ${(props) => props.theme.colors.primary};
+  border-radius: 20px;
+  background: transparent;
 
   &:hover {
     transform: translateX(5px);
+    background: ${(props) => props.theme.colors.primary};
+    color: white;
+  }
+`;
+
+const LiveDemoButton = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: ${(props) => props.theme.colors.secondary};
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border: 1px solid ${(props) => props.theme.colors.secondary};
+  border-radius: 20px;
+  background: transparent;
+
+  &:hover {
+    transform: translateX(5px);
+    background: ${(props) => props.theme.colors.secondary};
+    color: white;
   }
 `;
 
@@ -295,6 +327,120 @@ function ProjectsPage() {
   const projects = [
     {
       id: 1,
+      title: "Find Carrot Game",
+      description:
+        "React와 TypeScript로 개발한 당근 찾기 게임입니다. 클릭으로 숨겨진 당근을 찾아 점수를 얻는 재미있는 웹 게임입니다.",
+      category: "game",
+      icon: Carrot,
+      bgColor: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+      tech: [
+        "React",
+        "TypeScript",
+        "Styled Components",
+        "Framer Motion",
+        "HTML5",
+        "CSS3",
+      ],
+      stats: [
+        { icon: Users, label: "게임 완성도", value: "95%" },
+        { icon: TrendingUp, label: "사용자 만족도", value: "4.8/5.0" },
+      ],
+      features: [
+        "반응형 게임 인터페이스",
+        "애니메이션 효과",
+        "점수 시스템",
+        "타이머 기능",
+        "게임 오버 처리",
+        "다시 시작 기능",
+      ],
+      achievements: [
+        "부드러운 애니메이션 구현",
+        "모바일 터치 최적화",
+        "직관적인 UI/UX",
+        "성능 최적화 완료",
+      ],
+      githubUrl: "https://github.com/yourusername/find-carrot",
+      liveUrl: "http://localhost:3000",
+      port: 3000,
+    },
+    {
+      id: 2,
+      title: "Netflix Clone",
+      description:
+        "Netflix의 UI/UX를 참고하여 만든 영화 스트리밍 플랫폼 클론입니다. 영화 정보 표시와 반응형 디자인을 구현했습니다.",
+      category: "web",
+      icon: Video,
+      bgColor: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      tech: [
+        "React",
+        "TypeScript",
+        "Styled Components",
+        "Framer Motion",
+        "HTML5",
+        "CSS3",
+      ],
+      stats: [
+        { icon: Users, label: "UI 완성도", value: "90%" },
+        { icon: TrendingUp, label: "반응형 지원", value: "100%" },
+      ],
+      features: [
+        "Netflix 스타일 UI",
+        "반응형 디자인",
+        "영화 카드 호버 효과",
+        "헤더 네비게이션",
+        "푸터 정보",
+        "모바일 최적화",
+      ],
+      achievements: [
+        "Netflix UI 90% 재현",
+        "모든 디바이스 지원",
+        "부드러운 애니메이션",
+        "사용자 친화적 인터페이스",
+      ],
+      githubUrl: "https://github.com/yourusername/netflix-clone",
+      liveUrl: "http://localhost:3001",
+      port: 3001,
+    },
+    {
+      id: 3,
+      title: "Rabris (Tetris Clone)",
+      description:
+        "클래식 테트리스 게임을 React와 TypeScript로 재구현한 프로젝트입니다. 게임 로직과 키보드 컨트롤을 완벽하게 구현했습니다.",
+      category: "game",
+      icon: Gamepad2,
+      bgColor: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+      tech: [
+        "React",
+        "TypeScript",
+        "Custom Hooks",
+        "Game Logic",
+        "Keyboard Events",
+        "Styled Components",
+      ],
+      stats: [
+        { icon: Users, label: "게임 완성도", value: "98%" },
+        { icon: Award, label: "기능 구현", value: "100%" },
+      ],
+      features: [
+        "완전한 테트리스 게임 로직",
+        "키보드 컨트롤 (화살표 키)",
+        "점수 시스템",
+        "레벨 시스템",
+        "게임 오버 처리",
+        "다시 시작 기능",
+      ],
+      achievements: [
+        "테트리스 게임 로직 100% 구현",
+        "부드러운 키보드 컨트롤",
+        "직관적인 게임 인터페이스",
+        "성능 최적화 완료",
+      ],
+      githubUrl: "https://github.com/yourusername/rabris",
+      liveUrl: "http://localhost:3002",
+      port: 3002,
+    },
+    {
+      id: 4,
       title: "웹 애플리케이션 개발",
       description:
         "React와 TypeScript를 활용한 대규모 웹 애플리케이션으로, 사용자 친화적인 인터페이스와 고성능을 제공합니다.",
@@ -434,6 +580,12 @@ function ProjectsPage() {
             웹 프로젝트
           </FilterButton>
           <FilterButton
+            active={filter === "game"}
+            onClick={() => setFilter("game")}
+          >
+            게임 프로젝트
+          </FilterButton>
+          <FilterButton
             active={filter === "backend"}
             onClick={() => setFilter("backend")}
           >
@@ -491,6 +643,28 @@ function ProjectsPage() {
                   </ProjectStats>
 
                   <ProjectLinks>
+                    {project.githubUrl && (
+                      <ProjectLink 
+                        href={project.githubUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Github size={16} />
+                        GitHub
+                      </ProjectLink>
+                    )}
+                    {project.liveUrl && (
+                      <LiveDemoButton 
+                        href={project.liveUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink size={16} />
+                        라이브 데모
+                      </LiveDemoButton>
+                    )}
                     <ProjectLink href="#" onClick={(e) => e.stopPropagation()}>
                       <Play size={16} />
                       자세히 보기

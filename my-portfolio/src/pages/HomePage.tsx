@@ -372,11 +372,29 @@ const SectionSubtitle = styled(motion.p)`
   margin-right: auto;
 `;
 
+const StatsContainer = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  text-align: center;
+`;
+
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 3rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 `;
 
 const StatCard = styled(motion.div)`
@@ -1339,6 +1357,7 @@ function HomePage() {
             transition={{ duration: 0.8, delay: 0.8 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => window.location.href = '/#projects'}
           >
             프로젝트 보기 <ArrowRight size={20} />
           </CTAButton>
@@ -1349,14 +1368,15 @@ function HomePage() {
             transition={{ duration: 0.8, delay: 1 }}
           >
             <SocialLink
-                href={process.env.REACT_APP_GITHUB_URL || "https://github.com/yourusername"}
+              href={process.env.REACT_APP_GITHUB_URL || "https://github.com/BLU30CEAN"}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Github size={20} />
             </SocialLink>
-
-              <SocialLink href={`mailto:${process.env.REACT_APP_PERSONAL_EMAIL || "bigeunjun@naver.com"}`}>
+            <SocialLink 
+              href={`mailto:${process.env.REACT_APP_PERSONAL_EMAIL || "bigeunjun@naver.com"}`}
+            >
               <Mail size={20} />
             </SocialLink>
           </SocialLinks>
@@ -1470,8 +1490,9 @@ function HomePage() {
               팀과 함께 성장하는 것을 중요하게 생각합니다.
             </Description>
           </TextContent>
+        </Content>
 
-          <ImageContent>
+        <StatsContainer>
           <StatsGrid>
             {stats.map((stat, index) => (
               <StatCard
@@ -1490,8 +1511,7 @@ function HomePage() {
               </StatCard>
             ))}
           </StatsGrid>
-          </ImageContent>
-        </Content>
+        </StatsContainer>
 
         {/* 기술 스택 섹션 */}
         <TechStackContainer>

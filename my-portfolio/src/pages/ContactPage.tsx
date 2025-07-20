@@ -24,6 +24,34 @@ const ContactContainer = styled.div`
   padding: 2rem;
 `;
 
+const ThankYouSection = styled(motion.div)`
+  background: ${(props) => props.theme.colors.surface};
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  border: 1px solid ${(props) => props.theme.colors.border};
+  margin-bottom: 4rem;
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const ThankYouTitle = styled.h3`
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  background: ${(props) => props.theme.colors.gradient};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+`;
+
+const ThankYouText = styled.p`
+  color: ${(props) => props.theme.colors.textSecondary};
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+`;
+
 const ContactContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -427,6 +455,26 @@ function ContactPage() {
         >
           프로젝트 협업이나 기술 문의가 있으시면 언제든 연락주세요
         </SectionSubtitle>
+
+        <ThankYouSection
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          viewport={{ once: true }}
+        >
+          <ThankYouTitle>🙏 감사합니다!</ThankYouTitle>
+          <ThankYouText>
+            제 포트폴리오를 방문해주셔서 정말 감사합니다. 
+            <br />
+            4년간의 개발 경험을 바탕으로 사용자 중심의 솔루션을 개발하고 있습니다.
+            <br />
+            새로운 기술 학습과 문제 해결에 대한 열정을 가지고 있으며,
+            <br />
+            팀과 함께 성장하는 것을 중요하게 생각합니다.
+            <br /><br />
+            프로젝트 협업이나 기술 문의가 있으시면 언제든 연락주세요!
+          </ThankYouText>
+        </ThankYouSection>
 
         <ContactGrid>
           <ContactInfo>

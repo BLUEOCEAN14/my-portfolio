@@ -57,7 +57,18 @@ const Section = styled.section`
 `;
 
 const HomeSection = styled(Section)``;
-const AboutSection = styled(Section)``;
+const AboutSection = styled(Section)`
+  min-height: 100vh;
+  padding: 6rem 0;
+
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+`;
 
 const ProjectsSection = styled(Section)``;
 const ContactSection = styled(Section)``;
@@ -410,15 +421,31 @@ const TechStackContainer = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 4rem 0 2rem 0;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 3rem 0 2rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 2rem 0 1rem 0;
+  }
 `;
 
 const TechCategory = styled.div`
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   
   &:last-child {
     margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 2rem;
   }
 `;
 
@@ -448,6 +475,13 @@ const TechStackGrid = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1rem;
   }
 `;
 
@@ -1459,6 +1493,7 @@ function HomePage() {
           </ImageContent>
         </Content>
 
+        {/* 기술 스택 섹션 */}
         <TechStackContainer>
           <SectionSubtitle
             initial={{ opacity: 0, y: 30 }}

@@ -92,16 +92,22 @@ const Content = styled.div`
   z-index: 1;
   box-sizing: border-box;
 
+  @media (max-width: 1024px) {
+    gap: 3rem;
+    padding: 0 2rem;
+  }
+
   @media (max-width: 768px) {
     flex-direction: column;
     text-align: center;
-    gap: 2rem;
-    padding: 0 1rem;
-    max-width: 500px;
+    gap: 2.5rem;
+    padding: 0 1.5rem;
+    max-width: 600px;
   }
 
   @media (max-width: 480px) {
-    padding: 0 0.5rem;
+    gap: 2rem;
+    padding: 0 1rem;
     max-width: 100%;
   }
 `;
@@ -109,9 +115,20 @@ const Content = styled.div`
 const TextContent = styled.div`
   flex: 1;
   text-align: left;
+  max-width: 600px;
+
+  @media (max-width: 1024px) {
+    max-width: 500px;
+  }
 
   @media (max-width: 768px) {
     text-align: center;
+    max-width: 100%;
+    order: 2;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.5rem;
   }
 `;
 
@@ -120,6 +137,11 @@ const ImageContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    order: 1;
+    margin-bottom: 1rem;
+  }
 `;
 
 const ProfileImage = styled(motion.div)`
@@ -130,6 +152,7 @@ const ProfileImage = styled(motion.div)`
   border: 4px solid rgba(0, 212, 255, 0.3);
   box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
   position: relative;
+  background: ${(props) => props.theme.colors.surface};
 
   &::before {
     content: '';
@@ -149,6 +172,11 @@ const ProfileImage = styled(motion.div)`
     to { transform: rotate(360deg); }
   }
 
+  @media (max-width: 1024px) {
+    width: 280px;
+    height: 280px;
+  }
+
   @media (max-width: 768px) {
     width: 250px;
     height: 250px;
@@ -165,6 +193,11 @@ const Image = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  display: block;
+  
+  &:not([src]), &[src=""], &[src*="undefined"] {
+    display: none;
+  }
 `;
 
 const Greeting = styled(motion.div)`
@@ -175,7 +208,7 @@ const Greeting = styled(motion.div)`
 `;
 
 const Name = styled(motion.h1)`
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(2.5rem, 6vw, 6rem);
   font-weight: 800;
   margin-bottom: 1.5rem;
   background: ${(props) => props.theme.colors.gradient};
@@ -183,13 +216,32 @@ const Name = styled(motion.h1)`
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1.1;
+
+  @media (max-width: 768px) {
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+  }
 `;
 
 const Title = styled(motion.h2)`
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(1.2rem, 3vw, 2.5rem);
   color: ${(props) => props.theme.colors.textSecondary};
   margin-bottom: 2rem;
   font-weight: 400;
+
+  @media (max-width: 768px) {
+    font-size: clamp(1rem, 4vw, 1.8rem);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.9rem, 3.5vw, 1.5rem);
+    margin-bottom: 1rem;
+  }
 `;
 
 const Description = styled(motion.p)`
@@ -201,9 +253,22 @@ const Description = styled(motion.p)`
   text-align: left;
   letter-spacing: 0.02em;
 
+  @media (max-width: 1024px) {
+    font-size: 1rem;
+    max-width: 500px;
+  }
+
   @media (max-width: 768px) {
     text-align: center;
-  margin: 0 auto 3rem;
+    margin: 0 auto 2.5rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 auto 2rem;
   }
 `;
 
@@ -234,6 +299,16 @@ const SocialLinks = styled(motion.div)`
   justify-content: center;
   gap: 1.5rem;
   margin-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
 `;
 
 const SocialLink = styled(motion.a)`
@@ -253,6 +328,16 @@ const SocialLink = styled(motion.a)`
     background: ${(props) => props.theme.colors.primary};
     color: white;
     transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 45px;
+  }
+
+  @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
   }
 `;
 
@@ -1251,8 +1336,27 @@ function HomePage() {
               whileHover={{ scale: 1.05, rotate: 5 }}
             >
               <Image 
-                src={process.env.REACT_APP_PROFILE_IMAGE_URL || "/profile.jpg"} 
+                src="/profile.jpg"
                 alt={`${process.env.REACT_APP_PERSONAL_NAME || "EJ"} - Frontend Developer`}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.style.background = 'linear-gradient(135deg, #00d4ff, #4ecdc4)';
+                  target.parentElement!.innerHTML = `
+                    <div style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      width: 100%;
+                      height: 100%;
+                      color: white;
+                      font-size: 3rem;
+                      font-weight: bold;
+                    ">
+                      ${process.env.REACT_APP_PERSONAL_NAME || "EJ"}
+                    </div>
+                  `;
+                }}
               />
             </ProfileImage>
           </ImageContent>
